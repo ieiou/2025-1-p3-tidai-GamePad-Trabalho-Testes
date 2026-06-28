@@ -4,8 +4,19 @@ export default function NewsFilter({ onFilter }) {
   const [platform, setPlatform] = useState("");
   const [search, setSearch] = useState("");
 
+  const handlePlatformChange = (e) => {
+  setPlatform(e.target.value);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
   const handleFilter = () => {
-    onFilter({ platform, search });
+    onFilter({
+      platform,
+      search: search.trim(),
+    });
   };
 
   return (
@@ -13,7 +24,7 @@ export default function NewsFilter({ onFilter }) {
       <select
         className="rounded-lg px-3 py-2 bg-zinc-800 text-white"
         value={platform}
-        onChange={(e) => setPlatform(e.target.value)}
+        onChange={handlePlatformChange}
       >
         <option value="">Todas as plataformas</option>
         <option value="xbox">Xbox</option>
@@ -26,7 +37,7 @@ export default function NewsFilter({ onFilter }) {
         type="text"
         placeholder="Buscar por jogo ou termo..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearchChange}
       />
 
       <button
@@ -38,3 +49,4 @@ export default function NewsFilter({ onFilter }) {
     </div>
   );
 }
+
