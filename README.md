@@ -20,6 +20,7 @@ Nosso projeto visa a criação de uma plataforma voltada para lazer e entretenim
 * Pablo Marques Cordeiro
 * Ramon Pereira de Souza
 * Yalle Ramos Ferrari de Magalhaes
+* Joao Pedro Rafael Santos Silva
 
 ## Professor
 
