@@ -123,6 +123,98 @@ Requisitos associados cê encontram em: <a href="02-Especificacao.md">Especifica
 | Tela 3  | <img src="../docs/images/testes/ct8/p3.png" width="2000px">
 | Tela 4  | <img src="../docs/images/testes/ct8/p4.png" width="2000px">
 
+## Testes automatizados com Selenium
+
+Os casos de teste abaixo foram automatizados com Selenium WebDriver + pytest. Os scripts ficam em [`tests-selenium/`](../tests-selenium/) e podem ser executados com `./tests-selenium/run_tests.sh` (Linux/Mac) ou `tests-selenium\run_tests.bat` (Windows).
+
+| **Caso de teste**  | **CT-S01 – Carregamento da Home**  |
+|:---: |:---: |
+| Requisito associado | RF-007 - Exibir conteúdo inicial da aplicação |
+| Objetivo do teste | Verificar se a página inicial carrega com o título e a navbar visíveis. |
+| Passos | - Acessar `base_url` <br> - Validar título "GamePad" e presença do elemento `<nav>` |
+| Critério de êxito | - Página renderiza sem erro e navbar é exibida |
+| Script | [`tests-selenium/test_home.py::test_home_loads`](../tests-selenium/test_home.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S02 – Links da navbar**  |
+|:---: |:---: |
+| Requisito associado | RF-007 / Navegação |
+| Objetivo do teste | Verificar se a navbar contém os links principais (Home, Notícias, Guia). |
+| Passos | - Acessar `base_url` <br> - Ler o texto do elemento `<nav>` <br> - Verificar presença dos rótulos |
+| Critério de êxito | - Os três rótulos estão presentes |
+| Script | [`tests-selenium/test_home.py::test_navbar_has_links`](../tests-selenium/test_home.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S03 – Abertura do modal de registro**  |
+|:---: |:---: |
+| Requisito associado | RF-004 - Permitir a criação de perfis de usuários |
+| Objetivo do teste | Verificar se o modal de registro abre com todos os campos esperados. |
+| Passos | - Acessar `base_url` <br> - Clicar em "Registrar" <br> - Aguardar campos `nome`, `email`, `senha`, `confirmarSenha` |
+| Critério de êxito | - Todos os campos estão presentes no DOM |
+| Script | [`tests-selenium/test_auth.py::test_register_modal_opens`](../tests-selenium/test_auth.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S04 – Abertura do modal de login**  |
+|:---: |:---: |
+| Requisito associado | RF-006 - Permitir login do usuário |
+| Objetivo do teste | Verificar se o modal de login abre com os campos de email e senha. |
+| Passos | - Acessar `base_url` <br> - Clicar em "Entrar" <br> - Aguardar campos `email` e `senha` |
+| Critério de êxito | - Campos de login presentes no DOM |
+| Script | [`tests-selenium/test_auth.py::test_login_modal_opens`](../tests-selenium/test_auth.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S05 – Fluxo completo: registro via API + login pela UI**  |
+|:---: |:---: |
+| Requisito associado | RF-004 + RF-006 |
+| Objetivo do teste | Criar um usuário via API e validar o login pela interface. |
+| Passos | - Gerar email único com uuid <br> - `POST /api/Usuarios` com nome/email/senha <br> - Acessar `base_url`, abrir modal "Entrar" <br> - Preencher email/senha e submeter <br> - Aguardar mensagem "Bem-vindo" ou fechamento do modal |
+| Critério de êxito | - Login concluído (mensagem de boas-vindas ou modal fechado) |
+| Script | [`tests-selenium/test_login_flow.py::test_login_after_register`](../tests-selenium/test_login_flow.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S06 – Navegação para Notícias**  |
+|:---: |:---: |
+| Requisito associado | RF-007 - Exibir notícias do mundo dos games |
+| Objetivo do teste | Verificar se o link "Notícias" da navbar leva para `/news`. |
+| Passos | - Acessar `base_url` <br> - Clicar no link "Notícias" da navbar <br> - Aguardar URL conter `/news` |
+| Critério de êxito | - URL atual contém `/news` |
+| Script | [`tests-selenium/test_navigation.py::test_nav_to_news`](../tests-selenium/test_navigation.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S07 – Navegação para Guia**  |
+|:---: |:---: |
+| Requisito associado | Navegação |
+| Objetivo do teste | Verificar se o link "Guia" da navbar leva para `/guia`. |
+| Passos | - Acessar `base_url` <br> - Clicar no link "Guia" da navbar <br> - Aguardar URL conter `/guia` |
+| Critério de êxito | - URL atual contém `/guia` |
+| Script | [`tests-selenium/test_navigation.py::test_nav_to_guia`](../tests-selenium/test_navigation.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
+| **Caso de teste**  | **CT-S08 – Retorno para Home**  |
+|:---: |:---: |
+| Requisito associado | Navegação |
+| Objetivo do teste | Verificar que, estando em `/news`, o link "Home" retorna para a raiz. |
+| Passos | - Acessar `base_url/news` <br> - Clicar no link "Home" da navbar <br> - Aguardar URL voltar para `base_url` |
+| Critério de êxito | - URL atual igual a `base_url` |
+| Script | [`tests-selenium/test_navigation.py::test_nav_back_home`](../tests-selenium/test_navigation.py) |
+| Responsável | Joao Pedro Rafael Santos Silva |
+
+<br>
+
 <!--## Ferramentas de testes (opcional)
 
 Comente sobre as ferramentas de testes utilizadas.
