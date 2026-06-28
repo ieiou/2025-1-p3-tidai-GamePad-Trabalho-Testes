@@ -69,6 +69,32 @@ function GameFilters({
     }
   };
 
+  const handleRatingChange = async (e) => {
+  const value = e.target.value;
+
+  setFilters((f) => ({
+    ...f,
+    rating: value,
+  }));
+
+  if (!onFilterByRating) return;
+
+  if (!value) {
+    onFilterByRating(null);
+    return;
+  }
+
+  try {
+    const gamesWithMedia = await fetchGameIdsByMinRating(value);
+    const gameIds = gamesWithMedia.map((game) => game.igdbGameId);
+
+    onFilterByRating(gameIds);
+  } catch (error) {
+    console.error("Erro ao filtrar jogos por nota:", error);
+    onFilterByRating([]);
+  }
+};
+
   return (
     <div className="flex flex-row items-center gap-6 mb-8 w-full">
       {/* Filtros à esquerda */}
@@ -136,19 +162,7 @@ function GameFilters({
         <select
           className="px-3 py-2 rounded-lg border cursor-pointer border-zinc-600 bg-zinc-800 text-zinc-200"
           value={filters.rating}
-          onChange={async (e) => {
-            const value = e.target.value;
-            setFilters((f) => ({ ...f, rating: value }));
-            if (value) {
-              // Busca jogos por média mínima
-              const gamesWithMedia = await fetchGameIdsByMinRating(value);
-              if (onFilterByRating) {
-                onFilterByRating(gamesWithMedia.map((g) => g.igdbGameId));
-              }
-            } else if (onFilterByRating) {
-              onFilterByRating(null); // Limpa filtro
-            }
-          }}
+          onChange={handleRatingChange}
         >
           <option value="">Todas as notas</option>
           {[5, 4.5, 4, 3.5, 3].map((r) => (
